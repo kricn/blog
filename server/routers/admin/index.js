@@ -1,0 +1,173 @@
+const Router = require("koa-router");
+const path = require("path");
+const fs = require("fs");
+const myFs = require("../../libs/common")
+const formidable = require("formidable");
+
+//当前时间
+const nowDate = new Date();
+//文件后缀
+//用了``不要换行写
+var prefix = `${nowDate.getFullYear()}${nowDate.getMonth()+1<10?'0'+(nowDate.getMonth()+1):nowDate.getMonth()+1}${nowDate.getDate()<10?'0'+nowDate.getDate():nowDate.getDate()}${nowDate.getMinutes()<10?'0'+nowDate.getMinutes():nowDate.getMinutes()}${nowDate.getSeconds()<10?'0'+nowDate.getSeconds():nowDate.getSeconds()}${nowDate.getMilliseconds()}_`;
+
+
+//生成token
+const guid = require("uuid/v4");
+
+let router = new Router();
+
+
+//登陆
+router.post("/login", async ctx => {
+
+	let {username, password} = ctx.request.fields;
+
+	let rows = await ctx.db.query(`select * from users where username=?`, [username]);
+	if(rows.length == 0){
+		ctx.body = {err: 1, msg: 'no this user'}
+	}else{
+		let row = rows[0];
+
+		if(row['password'] != password){
+			ctx.body = {err: 1, msg: "password error"}
+		}else{
+			token = guid().replace(/\./g, "");
+			let token_expires=Math.floor((Date.now()+ctx.config.TOKEN_AGE)/1000);
+
+			await ctx.db.query('update users set token=?, token_expires=?', [token, token_expires]);
+			ctx.body = {err: 0, token};
+		}
+	}
+});
+
+//主页
+router.get('/home', async ctx => {
+	let datas = await ctx.db.query(`select * from post`);
+
+	let arr = [];
+
+	datas.forEach(data => {
+		arr.push(data);
+	});
+
+	ctx.body = arr;
+
+});
+//删除
+router.get('/delete/:id', async ctx => {
+
+	let {id} = ctx.params;
+
+	await ctx.db.query(`update post set isDisplay=0 where id=?`, [id]);
+
+	ctx.body = "ok";
+
+});
+//恢复
+router.get('/restore/:id', async ctx => {
+
+	let {id} = ctx.params;
+
+	await ctx.db.query(`update post set isDisplay=1 where id=?`, [id]);
+
+	ctx.body = "ok";
+});
+
+//发表
+router.post('/create', async ctx => {
+	let data = ctx.request.fields;
+	let title = data.title;
+	let md = data.markdown;
+	let html = data.html;
+	let date = data.date;
+	let mdpath = path.join(__dirname, `../../static/md/`);
+	let mdName = `${prefix}${title}.md`;
+	let htmlpath = path.join(__dirname, `../../static/html/`);
+	let htmlName = `${prefix}${title}.html`;
+	if(!title){
+		ctx.body = {err: 1, msg: "标题还没填呢老弟！"};
+	}else if(!md){
+		ctx.body = {err: 1, msg: "你想发空文章呢！！"};
+	}else{
+		let databaseTitle = await ctx.db.query(`select title from post where title=?`, [title]);
+		if(databaseTitle.length == 0){
+			await ctx.db.query(`insert into post (title, contents, date) value(?, ?, ?)`, [title, html, date]);
+			ctx.body = {err: 0, msg: "发表成功"};
+		}else{
+			ctx.body = {err: 1, msg: "fail"};
+		}
+	}
+	// if(!title){
+	// 	ctx.body = {err: 1, msg: "标题不能为空"}
+	// }else if(!html){
+	// 	ctx.boyd = {err: 1, msg: "标题不能为空"}
+	// }else{
+	// 	await ctx.db.query(
+	// 		`insert into post (title,contents,date) value(?,?,?)`,
+	// 		[title, html, date]);
+	// 		ctx.body = {err: 0, msg: 'success'}
+	// }
+});
+
+//图片写入指定文件夹
+function writeFile(title, filepath, targetUrl, newName){
+	//创建可读流
+	const reader = fs.createReadStream(filepath);
+	let newPath = path.join(__dirname, `../../static/${targetUrl}/`) + newName;
+
+	const upStream = fs.createWriteStream(newPath);
+	reader.pipe(upStream);
+}
+
+//图片上传
+router.post('/upload', async ctx => {
+	let file = ctx.request.fields;
+	let filepath = file.image[0].path;
+	let title = file.image[0].name;
+	let filesize = file.image[0].size;
+	let targetUrl = "images";
+	let date = Math.floor(nowDate/1000);
+	//写入数据库的新名
+	let newName = `${prefix}size_${filesize}_${title}`
+	let databaseSrc = await ctx.db.query(`select src from image_table where src=?`, [newName]);
+	//let url = path.basename(ctx.request.fields.image[0].path)
+	if(filesize>0){
+		writeFile(title, filepath, targetUrl, newName);
+		//上传相同图片
+		if(databaseSrc.length == 0){
+			await ctx.db.query(`insert into image_table (src, date) value(?, ?)`, [newName, date]);
+		}
+	}
+	ctx.body = newName;
+})
+
+//图片删除
+router.post("/imgdel", async ctx=>{
+		let file = ctx.request.fields;
+		let delName = path.basename(file[0]);
+		let delpath = path.join(__dirname, `../../static/images/${delName}`);
+		fs.unlink(delpath, err=>{
+			if(err){
+				return console.log(err);
+			}
+			console.log("ok");
+		})
+		await ctx.db.query(`delete from image_table where src=?`, [delName]);
+		ctx.body = {err: 0, msg: "ok"}
+});
+///////////////////////////////////////////////////////////////////////////
+
+//取数据
+router.get('/get', async ctx => {
+	let datas = await ctx.db.query(`select * from post`);
+
+	let arr = [];
+	datas.forEach(data => {
+		if(data.isDisplay){
+			arr.push(data);
+		}
+	});
+	ctx.body = arr
+})
+
+module.exports=router.routes();
