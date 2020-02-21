@@ -1,0 +1,27 @@
+.col-tools{
+  width: 360px;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 0;
+  z-index: 0;
+}
+.tools-show{
+  left: 300px;
+}
+
+@media screen and (max-width: 800px){
+  .col-tools{
+    left: -300px;
+    width: 300px;
+    overflow: hidden;
+    overflow-y: auto;
+    &::-webkit-scrollbar{
+      display: none;
+    }
+  }
+  .tools-show{
+    left: 0px;
+  }
+}

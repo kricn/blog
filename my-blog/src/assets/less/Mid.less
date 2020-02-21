@@ -1,0 +1,27 @@
+.col-mid{
+  min-height: 100%;
+  width: auto;
+  position: absolute;
+  right: 0;
+  left: 300px;
+  background: #EAEAEA;
+}
+.mid-show{
+  opacity: 0.6;
+  background: none;
+  left: 630px;
+  right: -360px;
+}
+
+@media screen and (max-width: 800px){
+  .col-mid{
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+  .mid-show{
+    opacity: 0.6;
+    left: 330px;
+  }
+}

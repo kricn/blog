@@ -1,0 +1,65 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "247432",
+      "name": "list",
+      "font_class": "list",
+      "unicode": "e695",
+      "unicode_decimal": 59029
+    },
+    {
+      "icon_id": "538778",
+      "name": "email",
+      "font_class": "email",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "1251339",
+      "name": "tag-2",
+      "font_class": "tag-2",
+      "unicode": "e68c",
+      "unicode_decimal": 59020
+    },
+    {
+      "icon_id": "1336081",
+      "name": "Search",
+      "font_class": "Search",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "1354610",
+      "name": "Book",
+      "font_class": "Book",
+      "unicode": "e76d",
+      "unicode_decimal": 59245
+    },
+    {
+      "icon_id": "1381385",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "5072110",
+      "name": "tag",
+      "font_class": "tag",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "10344724",
+      "name": " Tag",
+      "font_class": "Tag",
+      "unicode": "e775",
+      "unicode_decimal": 59253
+    }
+  ]
+}
