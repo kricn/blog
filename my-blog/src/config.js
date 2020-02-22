@@ -5,5 +5,5 @@ if(process.env.NODE_ENV=="development"){
 }else{
   server = "http://134.175.241.15:3000"
 }
-
-export const SERVER = server
+const SERVER = server;
+exports=SERVER;

@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import {SERVER} from "../config"
+import {SERVER} from "../config.js"
 export default {
   props: ["isShow"],
   data(){
@@ -111,7 +111,7 @@ export default {
     getArticle(){
       this.$http({
         method: 'get',
-        url: `${SERVER}/admin/get`,
+        url: `/api/admin/get`,
         dataType: 'json'
       }).then(res=>{
         let article = res.data;

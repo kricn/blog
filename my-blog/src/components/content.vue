@@ -76,7 +76,6 @@
                   </ul>
               </div>
                 <p><router-link :to="{ name: 'article', params: {id: article.id} }">展开全文>></router-link></p>
-                <!-- <p> <a href="javascript:;" @click="article_show">展开全文>></a> </p> -->
                 <div class="clearfix"></div>
               </div>
             </div>
@@ -101,7 +100,7 @@
 </template>
 
 <script>
-import {SERVER} from "../config"
+import {SERVER} from "../config.js"
 export default {
   props: ["isShow"],
   data(){
@@ -119,7 +118,7 @@ export default {
 
       this.$http({
         method: 'get',
-        url: `${SERVER}/admin/get`,
+        url: `/api/admin/get`,
         dataType: 'json'
       }).then(res=>{
         let article = res.data;

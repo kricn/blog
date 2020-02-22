@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import {SERVER} from "../config"
+import {SERVER} from "../config.js"
 export default {
   props: ["isDisplay", "isShowMobileTools", "isActive"],
   data(){
@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     async getArticle(){
-      let res = await fetch(`${SERVER}/admin/get`);
+      let res = await fetch(`/api/admin/get`);
       let article = await res.json();
 
       article.forEach(art => {
