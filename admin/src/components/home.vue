@@ -44,35 +44,10 @@
       </template>
     </el-table-column>
   </el-table>
-  <!-- <div class="ctatlog">
-    <table class="table">
-      <thead>
-        <th>
-          <td>id</td>
-          <td>title</td>
-          <td>date</td>
-          <td>isDisplay</td>
-          <td>opteration</td>
-        </th>
-      </thead>
-      <tbody>
-        <tr v-for="(data, index) in articles">
-          <td>{{data.id}}</td>
-          <td>{{data.title}}</td>
-          <td>{{data.date}}</td>
-          <td>{{data.isDisplay}}</td>
-          <td>
-            <a href="javascript:;" @click="data.isDisplay?delete_article(data.id):restore_article(data.id)">{{data.isDisplay?'delete':'restore'}}</a>
-            <a href="javascript:;" @click="modify_article(data.id)">modify</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div> -->
 </template>
 
 <script>
-import {SERVER} from "../config"
+import {SERVER} from "../config.js"
 export default {
   data(){
     return {
@@ -82,28 +57,53 @@ export default {
   },
   async created(){
     //获取文章数据
-    let res = await fetch(SERVER+"admin/home");
-    let json = await res.json();
-    json.forEach(json => {
-      let oDate = new Date(json.date * 1000);
-      json.date = `${oDate.getFullYear()}-${oDate.getMonth()+1}-${oDate.getDate()}`
+    this.axios({
+      method: "GET",
+      url: "/api/admin/home",
     })
-    this.articles = json;
+    .then(data=>{
+      let res = data.data;
+      res.forEach(arr=>{
+        let oDate = new Date(arr.date * 1000);
+        arr.date = `${oDate.getFullYear()}-${oDate.getMonth()+1}-${oDate.getDate()}`
+      });
+      this.articles = res;
+    }).catch(e=>{
+      if(e){
+        console.log(e);
+      }
+    });
   },
   methods: {
+    //文章删除
     async delete_article(id){
-      let res = await fetch(SERVER+`admin/delete/${id}`, {
-        params: id
+      this.axios({
+        method: "GET",
+        url: `/api/admin/delete/${id}`,
+        data: id
+      })
+      .catch(e=>{
+        if(e){
+          console.log(e);
+        }
       });
       this.$router.go(0);
     },
+    //文章恢复
     async restore_article(id){
-      console.log(id)
-      let res = await fetch(SERVER+`admin/restore/${id}`, {
-        params: id
+      this.axios({
+        method: "GET",
+        url: `/api/admin/restore/${id}`,
+        data: id
+      })
+      .catch(e=>{
+        if(e){
+          console.log(e);
+        }
       });
       this.$router.go(0);
     },
+    //文章修改
     async modify_article(id){
     }
   }

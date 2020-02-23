@@ -40,12 +40,6 @@
       </el-main>
     </el-container>
 </el-container>
-  <!-- <div>
-    <Header/>
-    <div class="">
-      <router-view></router-view>
-    </div>
-  </div> -->
 </template>
 
 <script>

@@ -1,8 +1,8 @@
 const path = require("path");
-
+const {SERVER} = require('./src/config.js');
 module.exports = {
   //部署包时时的基本url
-  publicPath: process.env.NODE_ENV === 'production'? '': '/',
+  publicPath: process.env.NODE_ENV === 'production'? '/': '/',
   //生产环境时的输出目录,生产环境的输出路径都相对于这个路径
   outputDir: 'dist', //default
   //放置静态资源的目录
@@ -52,10 +52,11 @@ module.exports = {
 
   devServer: {
     open: true,
-    host: 'localhost',
+    host: '0.0.0.0',
     port: 8081,
     https: false,
     hotOnly: false,
+    // proxy: null,
     proxy: {
       "/api": {
         target: "http://localhost:3000/",

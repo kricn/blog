@@ -50,15 +50,19 @@ export default {
   },
   methods: {
     async getArticle(){
-      let res = await fetch(`/api/admin/get`);
-      let article = await res.json();
+      this.axios({
+        method: "GET",
+        url: "/api/admin/get",
+      })
+      .then(data=>{
+        let res = data.data;
 
-      article.forEach(art => {
-        let oDate = new Date(art.date * 1000);
-        art.date = `${oDate.getFullYear()}-${oDate.getMonth()+1}-${oDate.getDate()}`
-      });
-
-      this.articles = article;
+        res.forEach(arr=>{
+          let oDate = new Date(arr.date * 1000);
+          arr.date = `${oDate.getFullYear()}-${oDate.getMonth()+1}-${oDate.getDate()}`
+        });
+        this.articles = res;
+      })
     },
     showList(){
       this.$emit("showList");

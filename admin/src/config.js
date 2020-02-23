@@ -6,4 +6,4 @@ if(process.env.NODE_ENV=="development"){
   server = "http://134.175.241.15:3000/"
 }
 
-export const SERVER = server
+exports.SERVER = server

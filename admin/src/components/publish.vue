@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import {SERVER} from "../config"
+import {SERVER} from "../config.js"
 import {mavonEditor} from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
 
@@ -69,7 +69,7 @@ export default {
       })
       .then(data=>{
         let src = data.data
-        this.$refs.editor.$img2Url(pos, SERVER+"images/" + src)
+        this.$refs.editor.$img2Url(pos, "/api/images/" + src)
       });
     },
     async $imgDel(pos){

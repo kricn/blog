@@ -5,7 +5,7 @@
         <img src="../assets/profile.jpg" alt="profile">
       </div>
       <div class="login_info">
-        <form class="login_form" :action="SERVER+'admin/login'" method="post" enctype="multipart/form-data"  ref="login_form">
+        <form class="login_form" :action="`/api/admin/login`" method="post" enctype="multipart/form-data"  ref="login_form">
           <div class="login_user">
             <label for="username">user:</label>
             <input type="text" name="username" placeholder="username" v-model="user.username">
@@ -22,34 +22,38 @@
 </template>
 
 <script>
-import {SERVER} from "../config"
+import {SERVER} from "../config.js"
 export default {
   data(){
     return {
-      user: {username: "mnyt", password: 123456},
+      user: {username: "mnyt", password: 12345},
       SERVER
     }
+  },
+  created(){
+    console.log(this.SERVER);
   },
   methods: {
     async submit_form(){
       let form = this.$refs["login_form"];
       let formData = new FormData(form);
 
-      let res = await fetch(form.action, {
-        method: form.method,
-        body: formData
-      });
+      this.axios({
+        method: "POST",
+        url: form.action,
+        data: formData
+      })
+      .then(data=>{
+        let res = data.data;
 
-      let json = await res.json();
-
-      if(json.err){
-        alert(json.msg);
-      }else{
-        localStorage.token=json.token;
-        alert('login success');
-
+        if(res.err){
+          alert(res.msg);
+          return ;
+        }
+        localStorage.token = res.token;
+        alert("login success");
         this.$router.push("/home");
-      }
+      });
     }
   }
 }

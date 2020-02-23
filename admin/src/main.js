@@ -8,9 +8,11 @@ import VueAxios from 'vue-axios'
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/glable.css'
 
-
 Vue.config.productionTip = false
-Vue.use(ElementUI, VueAxios, axios);
+
+Vue.use(VueAxios, axios);
+Vue.use(ElementUI);
+
 new Vue({
   router,
   store,

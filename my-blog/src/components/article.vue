@@ -109,7 +109,7 @@ export default {
   },
   methods: {
     getArticle(){
-      this.$http({
+      this.axios({
         method: 'get',
         url: `/api/admin/get`,
         dataType: 'json'
