@@ -81,9 +81,21 @@
             </div>
           </article>
           <nav id="page-nav">
-            <a href="javascript:;"><< prev</a>
-            <span class="page-number current">1</span>
-            <a href="javascript:;">next >></a>
+            <a href="javascript:;"
+             @click="pageUp"
+             >
+             << prev</a>
+            <span class="page-number" v-for="artPage in allPages">
+              <span
+               :class="[artPage==page?'current':'']"
+               @click="pageJump(artPage)"
+               >
+               {{artPage}}</span>
+            </span>
+            <a href="javascript:;"
+             @click="pageDown"
+             >
+             next >></a>
           </nav>
         </div>
       </div>
@@ -105,23 +117,54 @@ export default {
   props: ["isShow"],
   data(){
     return {
+      //所有文章
+      all: [],
+      //文章能分几页
+      allPages: 1,
+      //文章数据
       articles: [],
-      articles_count: 0,
+      //默认第一页
+      page: 1,
+      //一页展示的条数
+      articles_count: 10,
+      //展示全文
       isArticle_show: false
     }
   },
   created(){
+    this.getAll();
     this.getArticle();
   },
   methods: {
-    getArticle(){
-
+    //获取所有文章
+    getAll(){
       this.axios({
-        method: 'get',
-        url: `/api/admin/get`,
-        dataType: 'json'
-      }).then(res=>{
-        let article = res.data;
+        method: "GET",
+        url: '/api/admin/getAll',
+        dataType: "json"
+      })
+      .then(data=>{
+        let res = data.data;
+        this.allPages = Math.ceil(res.length/this.articles_count);
+      })
+      .catch(e=>{
+        if(e){
+          console.log(e);
+        }
+      })
+    },
+    //获取展示文章
+    getArticle(){
+      this.axios({
+        method: 'GET',
+        url: "/api/admin/get",
+        dataType: 'json',
+        params: {
+          page: this.page,
+          count: this.articles_count
+        }
+      }).then(data=>{
+        let article = data.data;
 
         article.forEach(art => {
           let oDate = new Date(art.date * 1000);
@@ -129,16 +172,40 @@ export default {
         })
 
         this.articles = article.reverse();
-        this.articles_count = article.length;
       }).catch(e=>{
         console.log(e);
       });
     },
+    //信息栏展示
     showTools(){
       this.$emit("showMobTools");
     },
+    //全文展示
     article_show(){
       this.isArticle_show = !this.isArticle_show
+    },
+    //上一页
+    pageUp(){
+      this.page--;
+      if(this.page < 1){
+        this.page = 1;
+        return ;
+      }
+      this.getArticle();
+    },
+    //下一页
+    pageDown(){
+      this.page++;
+      if(this.page > this.allPages){
+        this.page = this.allPages;
+        return;
+      }
+      this.getArticle();
+    },
+    //指定页
+    pageJump(page){
+      this.page = page;
+      this.getArticle();
     }
   }
 }

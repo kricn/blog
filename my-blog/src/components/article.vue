@@ -111,10 +111,10 @@ export default {
     getArticle(){
       this.axios({
         method: 'get',
-        url: `/api/admin/get`,
+        url: `/api/admin/getAll`,
         dataType: 'json'
-      }).then(res=>{
-        let article = res.data;
+      }).then(data=>{
+        let article = data.data;
 
         article.forEach(art => {
           let oDate = new Date(art.date * 1000);
@@ -122,7 +122,6 @@ export default {
 
           if(art.id == this.$route.params.id)
           {
-
             this.articles.push(art);
           }
         });

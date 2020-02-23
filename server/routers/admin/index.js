@@ -40,7 +40,8 @@ router.post("/login", async ctx => {
 	}
 });
 
-//主页
+
+//后台管理主页
 router.get('/home', async ctx => {
 	let datas = await ctx.db.query(`select * from post`);
 
@@ -97,16 +98,6 @@ router.post('/create', async ctx => {
 			ctx.body = {err: 1, msg: "fail"};
 		}
 	}
-	// if(!title){
-	// 	ctx.body = {err: 1, msg: "标题不能为空"}
-	// }else if(!html){
-	// 	ctx.boyd = {err: 1, msg: "标题不能为空"}
-	// }else{
-	// 	await ctx.db.query(
-	// 		`insert into post (title,contents,date) value(?,?,?)`,
-	// 		[title, html, date]);
-	// 		ctx.body = {err: 0, msg: 'success'}
-	// }
 });
 
 //图片写入指定文件夹
@@ -157,17 +148,22 @@ router.post("/imgdel", async ctx=>{
 });
 ///////////////////////////////////////////////////////////////////////////
 
-//取数据
-router.get('/get', async ctx => {
-	let datas = await ctx.db.query(`select * from post`);
+//全部能展示文章的数据
+router.get("/getAll", async ctx => {
+	let datas = await ctx.db.query(`select * from post where isDisplay=1`);
+	ctx.body = datas;
+});
 
-	let arr = [];
-	datas.forEach(data => {
-		if(data.isDisplay){
-			arr.push(data);
-		}
-	});
-	ctx.body = arr
+//博客展示文章取数据
+router.get('/get', async ctx => {
+	let query = ctx.request.query;
+	//页数
+	let page = Number(query.page);
+	//数量
+	let count = Number(query.count);
+	let datas = await ctx.db.query(`select * from post where isDisplay=1 limit ?, ?`, [page*count-count, page*count]);
+
+	ctx.body = datas;
 })
 
 module.exports=router.routes();

@@ -108,17 +108,24 @@
   }
 }
 #page-nav{
-  text-align: center;
   margin-top: 30px;
+  text-align: center;
   >a{
-    margin: 0 27px;
+    margin: 0 10px;
     color: #444;
   }
   >.page-number{
     width: 20px;
     height: 25px;
     display: inline-block;
-    &.current{
+    margin: 0 5px;
+    &:hover{
+      cursor: pointer;
+    }
+    >.current{
+      width: 20px;
+      height: 25px;
+      display: inline-block;
       background: #88abdc;
     }
   }
