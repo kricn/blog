@@ -1,7 +1,21 @@
 <template lang="html">
   <div>
-    <input type="text" name="title" ref="title">
-    <a href="javascript:;" @click="test" style="color:#ccc;">clickit</a>
+    <div class="info">
+      <el-input type="text"
+       name="title"
+       v-model="title"
+       prefix-icon="el-icon-magic-stick"
+       clearable
+       >
+     </el-input>
+     <el-button
+      @click="publish"
+      plain
+      type="primary"
+      >
+      publish
+      </el-button>
+    </div>
     <mavon-editor
      ref="editor"
      v-model="doc"
@@ -25,19 +39,20 @@ export default {
   components: {mavonEditor},
   data(){
     return {
-      doc: ''
+      doc: '',
+      //文章标题
+      title: ''
     }
   },
   methods: {
     save(){
       console.log("s")
     },
-    async test(){
-      let title = this.$refs.title.value;
+    async publish(){
+      let title = this.title;
       let date = Math.floor(Date.now()/1000);
       let markdown = this.$refs.editor.d_value;
       let html = this.$refs.editor.d_render;
-
       let url = "/api/admin/create"
       axios({
         method: "POST",
@@ -69,14 +84,15 @@ export default {
       })
       .then(data=>{
         let src = data.data
-        this.$refs.editor.$img2Url(pos, "/api/images/" + src)
+        this.$refs.editor.$img2Url(pos, `${SERVER}images/` + src)
       });
     },
     async $imgDel(pos){
+      let name = pos[0];
       axios({
         method: "POST",
         url: "/api/admin/imgdel",
-        data: pos
+        data: {name}
       })
       .then()
     },
@@ -88,5 +104,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+.info{
+  margin: 20px 0;
+  >.el-input{
+    width: 50%;
+    margin-right: 10px;
+  }
+}
 </style>

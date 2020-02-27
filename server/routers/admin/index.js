@@ -31,6 +31,7 @@ router.post("/login", async ctx => {
 		if(row['password'] != password){
 			ctx.body = {err: 1, msg: "password error"}
 		}else{
+			//生成token
 			token = guid().replace(/\./g, "");
 			let token_expires=Math.floor((Date.now()+ctx.config.TOKEN_AGE)/1000);
 
@@ -90,13 +91,27 @@ router.post('/create', async ctx => {
 	}else if(!md){
 		ctx.body = {err: 1, msg: "你想发空文章呢！！"};
 	}else{
-		let databaseTitle = await ctx.db.query(`select title from post where title=?`, [title]);
-		if(databaseTitle.length == 0){
-			await ctx.db.query(`insert into post (title, contents, date) value(?, ?, ?)`, [title, html, date]);
-			ctx.body = {err: 0, msg: "发表成功"};
-		}else{
-			ctx.body = {err: 1, msg: "fail"};
-		}
+		let mdName = `${prefix}${title}.md`;
+		let htmlName = `${prefix}${title}.html`
+		//写入md文件
+		fs.writeFile(`${mdpath}${mdName}`, md, err=>{
+			if(err){
+				console.log(err);
+			}
+		});
+		//写入html文件
+		fs.writeFile(`${htmlpath}${htmlName}`, html, err=>{
+			if(err){
+				console.log(err);
+			}
+		});
+		//写入数据库的post表中
+		await ctx.db.query(`insert into post (title, mdSrc, htmlSrc, contents, date) value(?, ?, ?, ?, ?)`, [title, mdName, htmlName, html, date]);
+		//单独写入数据库的mdfile表中
+		await ctx.db.query(`insert into mdfile (title, src) value(?, ?)`, [title, mdName]);
+		//单独写入数据库的html表中
+		await ctx.db.query(`insert into htmlfile (title, src) value(?, ?)`, [title, htmlName]);
+		ctx.body = {err: 0, msg: "发表成功"};
 	}
 });
 
@@ -134,8 +149,8 @@ router.post('/upload', async ctx => {
 
 //图片删除
 router.post("/imgdel", async ctx=>{
-		let file = ctx.request.fields;
-		let delName = path.basename(file[0]);
+		let {name} = ctx.request.fields;
+		let delName = path.basename(name);
 		let delpath = path.join(__dirname, `../../static/images/${delName}`);
 		fs.unlink(delpath, err=>{
 			if(err){

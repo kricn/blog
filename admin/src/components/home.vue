@@ -67,7 +67,7 @@ export default {
         let oDate = new Date(arr.date * 1000);
         arr.date = `${oDate.getFullYear()}-${oDate.getMonth()+1}-${oDate.getDate()}`
       });
-      this.articles = res;
+      this.articles = res.reverse();
     }).catch(e=>{
       if(e){
         console.log(e);
