@@ -20,3 +20,5 @@ npm i     （admin, serve, my-blog都要）
 blog主体端口8080
 admin端口8081
 serve端口3000
+初始用户名：mnyt
+初始密码: 123456
