@@ -16,6 +16,7 @@ npm i     （admin, serve, my-blog都要）
   node serve.js
 ## 生产环境
   npm run build
+  开发模式用 /api 进行代理解决跨域 部署到线上时需要将server的地址用路径 /api 进行代理解决跨域问题
 
 blog主体端口8080
 admin端口8081
