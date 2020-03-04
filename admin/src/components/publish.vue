@@ -44,6 +44,13 @@ export default {
       title: ''
     }
   },
+  beforeRouteLeave(to, from, next){
+    let leave = confirm('即将离开页面，你的操作将不会被保存。是否继续操作')
+    if(leave){
+      return next();
+    }
+    return next(false)
+  },
   methods: {
     save(){
       console.log("s")
@@ -74,7 +81,6 @@ export default {
       });
     },
     async $imgAdd(pos, $file){
-
       var formdata = new FormData();
       formdata.append('image', $file);
       axios({

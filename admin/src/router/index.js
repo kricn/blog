@@ -16,24 +16,29 @@ const router = new Router({
     },
     {
       path: '/',
+      name: 'index',
       component: Index,
       children: [
         {
           path: '/home',
+          name: 'home',
           component: Home
         },
         {
           path: '/modify',
+          name: 'modify',
           component: Modify
         },
         {
           path: '/publish',
-          component: Publish
+          name: 'publish',
+          component: Publish,
         }
       ]
     },
     {
       path: '/login',
+      name: 'login',
       component: Login
     }
   ]
@@ -41,12 +46,13 @@ const router = new Router({
 
 //路由守卫
 router.beforeEach((to, from, next) => {
-  if(to.path == '/login') return next();
   //获取token
   const tokenStr = window.localStorage.getItem("token");
-
+  if(to.path == '/login'){
+    return next();
+  }
   if(!tokenStr) return next("/login");
-  next()
+  next();
 });
 
 export default router;
