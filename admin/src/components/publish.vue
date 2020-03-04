@@ -23,7 +23,7 @@
      @imgDel="$imgDel"
      @change="change"
      :ishljs="true"
-     > </mavon-editor>
+     ></mavon-editor>
   </div>
 </template>
 
@@ -45,11 +45,17 @@ export default {
     }
   },
   beforeRouteLeave(to, from, next){
-    let leave = confirm('即将离开页面，你的操作将不会被保存。是否继续操作')
-    if(leave){
+    let title = this.title;
+    let markdown = this.$refs.editor.d_value;
+    if(!title && !markdown){
       return next();
+    }else{
+      let leave = confirm('即将离开页面，你的操作将不会被保存。是否继续操作');
+      if(leave){
+        return next();
+      }
     }
-    return next(false)
+    return next(false);
   },
   methods: {
     save(){

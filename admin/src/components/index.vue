@@ -8,7 +8,7 @@
       <!-- aside -->
       <el-aside width="auto">
         <el-menu
-        default-active="/home"
+        :default-active="$route.path"
         text-color="#fff"
         background-color="#333"
         :collapse="isCollapse"
@@ -20,7 +20,7 @@
               <span>首页</span>
           </el-menu-item>
           <!-- 修改文章 -->
-          <el-menu-item index="/modify">
+          <el-menu-item :key="key" :index="modifyId">
               <i class="el-icon-location"></i>
               <span>修改文章</span>
           </el-menu-item>
@@ -33,7 +33,6 @@
             <el-button @click="nav_show" icon="el-icon-star-off" circle></el-button>
           </div>
         </el-menu>
-        <div class="clearfix"></div>
       </el-aside>
       <el-main>
         <router-view></router-view>
@@ -46,10 +45,22 @@
 import Header from '@/components/header.vue';
 
 export default {
+  computed: {
+    modifyId(){
+      let params = this.$route.params.id;
+      if(!params){
+        return "/modify";
+      }
+      return `/modify/${params}`
+    },
+    key() {
+        return this.$route.name !== undefined? this.$route.name + +new Date(): this.$route + +new Date()
+    }
+  },
   data(){
     return {
       //nav菜单展开和折叠
-      isCollapse: false
+      isCollapse: false,
     }
   },
   components: {

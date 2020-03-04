@@ -1,14 +1,81 @@
 <template lang="html">
-  <div class="">
-    
-    modify
+  <div
+   v-if="this.$route.params.id"
+   class="modifyId">
+   <div class="info">
+     <el-input type="text"
+      name="title"
+      v-model="title"
+      prefix-icon="el-icon-magic-stick"
+      clearable
+      >
+    </el-input>
+    <el-button
+     @click="publish"
+     plain
+     type="primary"
+     >
+     publish
+     </el-button>
+   </div>
+   <mavon-editor
+    ref="editor"
+    v-model="doc"
+    @imgAdd="$imgAdd"
+    @imgDel="$imgDel"
+    @change="change"
+    :ishljs="true"
+    ></mavon-editor>
+  </div>
+  <div
+   v-else
+   class="modify">
+     请去首页选择需要修改的文章
   </div>
 </template>
 
 <script>
+//引入mavon-editor
+import {mavonEditor} from "mavon-editor";
+import "mavon-editor/dist/css/index.css";
+//引入axios
+import axios from 'axios'
+
 export default {
+  components: {mavonEditor},
+  data(){
+    return {
+      doc: '',
+      //文章标题
+      title: ''
+    }
+  },
+  methods: {
+    save(){
+      console.log("s")
+    },
+    async publish(){
+
+    },
+    async $imgAdd(pos, $file){
+
+    },
+    async $imgDel(pos){
+
+    },
+    change(){
+      console.log("a");
+    }
+  }
 }
 </script>
 
 <style lang="less" scoped>
+.info{
+  margin: 20px 0;
+  .el-input{
+    width: 50%;
+    margin-right: 10px;
+  }
+}
 </style>

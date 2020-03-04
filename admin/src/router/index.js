@@ -30,6 +30,11 @@ const router = new Router({
           component: Modify
         },
         {
+          path: '/modify/:id',
+          name: 'modifyId',
+          component: Modify
+        },
+        {
           path: '/publish',
           name: 'publish',
           component: Publish,

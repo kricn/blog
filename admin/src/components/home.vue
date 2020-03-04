@@ -1,5 +1,6 @@
 <template lang="html">
   <el-table
+    v-loading="loading"
     :data="articles"
     height="100%"
     border
@@ -27,6 +28,7 @@
     <el-table-column
       label="操作">
       <template slot-scope="scope">
+        <!-- 展示按钮 -->
         <el-button
          v-if="scope.row.isDisplay"
          @click="scope.row.isDisplay?delete_article(scope.row.id):restore_article(scope.row.id)"
@@ -41,6 +43,13 @@
          size="mini"
          circle>
        </el-button>
+       <!-- 修改按钮 -->
+       <el-button
+        @click="modify_article(scope.row.id)"
+        type="primary" icon="el-icon-edit"
+        size="mini"
+        circle>
+      </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -52,7 +61,7 @@ export default {
   data(){
     return {
       //文章数据
-      articles: []
+      articles: [],
     }
   },
   async created(){
@@ -73,6 +82,14 @@ export default {
         console.log(e);
       }
     });
+  },
+  computed: {
+    loading(){
+      if(this.articles.length > 0){
+        return false;
+      }
+      return true;
+    }
   },
   methods: {
     //文章删除
@@ -105,6 +122,7 @@ export default {
     },
     //文章修改
     async modify_article(id){
+      this.$router.push({path: `/modify/${id}`})
     }
   }
 }
