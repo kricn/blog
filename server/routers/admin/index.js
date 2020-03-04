@@ -76,7 +76,7 @@ router.get('/restore/:id', async ctx => {
 });
 
 //发表
-router.post('/create', async ctx => {
+router.post('/create', async (ctx, next) => {
 	let data = ctx.request.fields;
 	let title = data.title;
 	let md = data.markdown;
@@ -93,25 +93,31 @@ router.post('/create', async ctx => {
 	}else{
 		let mdName = `${prefix}${title}.md`;
 		let htmlName = `${prefix}${title}.html`
-		//写入md文件
-		fs.writeFile(`${mdpath}${mdName}`, md, err=>{
-			if(err){
-				console.log(err);
-			}
+		//异步回调
+		return new Promise((resolve, reject)=>{
+			//写入md文件
+			fs.writeFile(`${mdpath}${mdName}`, md, err=>{
+				if(err){
+					ctx.body = {err: 1, msg: "写入md文件失败"};
+					resolve(next());
+				}
+			});
+			//写入html文件
+			fs.writeFile(`${htmlpath}${htmlName}`, html, err=>{
+				if(err){
+					ctx.body = {err: 1, msg: "写入html文件失败"};
+					resolve(next());
+				}
+			});
+			//单独写入数据库的html表中
+			ctx.db.query(`insert into htmlfile (title, src) value(?, ?)`, [title, htmlName]).then();
+			//单独写入数据库的mdfile表中
+			ctx.db.query(`insert into mdfile (title, src) value(?, ?)`, [title, mdName]).then();
+			//写入数据库的post表中
+			ctx.db.query(`insert into post (title, mdSrc, htmlSrc, contents, date) value(?, ?, ?, ?, ?)`, [title, mdName, htmlName, html, date]).then();
+			ctx.body = {err: 0, msg: "发表成功"};
+			resolve(next());
 		});
-		//写入html文件
-		fs.writeFile(`${htmlpath}${htmlName}`, html, err=>{
-			if(err){
-				console.log(err);
-			}
-		});
-		//写入数据库的post表中
-		await ctx.db.query(`insert into post (title, mdSrc, htmlSrc, contents, date) value(?, ?, ?, ?, ?)`, [title, mdName, htmlName, html, date]);
-		//单独写入数据库的mdfile表中
-		await ctx.db.query(`insert into mdfile (title, src) value(?, ?)`, [title, mdName]);
-		//单独写入数据库的html表中
-		await ctx.db.query(`insert into htmlfile (title, src) value(?, ?)`, [title, htmlName]);
-		ctx.body = {err: 0, msg: "发表成功"};
 	}
 });
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： 127.0.0.1:3306
--- 生成日期： 2020-02-27 08:07:18
+-- 生成日期： 2020-03-04 05:59:17
 -- 服务器版本： 5.7.26
 -- PHP 版本： 7.2.18
 
@@ -31,17 +31,18 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `htmlfile`;
 CREATE TABLE IF NOT EXISTS `htmlfile` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(128) NOT NULL,
-  `src` varchar(128) NOT NULL,
+  `title` varchar(128) CHARACTER SET utf8 NOT NULL,
+  `src` varchar(128) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `htmlfile`
 --
 
 INSERT INTO `htmlfile` (`id`, `title`, `src`) VALUES
-(1, 'test title1', '202002272356707_test title1.html');
+(1, 'test title1', '202002272356707_test title1.html'),
+(2, '异步回调测试', '202003045807484_异步回调测试.html');
 
 -- --------------------------------------------------------
 
@@ -52,7 +53,7 @@ INSERT INTO `htmlfile` (`id`, `title`, `src`) VALUES
 DROP TABLE IF EXISTS `image_table`;
 CREATE TABLE IF NOT EXISTS `image_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `src` varchar(128) CHARACTER SET utf8mb4 NOT NULL,
+  `src` varchar(128) CHARACTER SET utf8 NOT NULL,
   `date` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
@@ -73,17 +74,18 @@ INSERT INTO `image_table` (`id`, `src`, `date`) VALUES
 DROP TABLE IF EXISTS `mdfile`;
 CREATE TABLE IF NOT EXISTS `mdfile` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(128) NOT NULL,
-  `src` varchar(128) NOT NULL,
+  `title` varchar(128) CHARACTER SET utf8 NOT NULL,
+  `src` varchar(128) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `mdfile`
 --
 
 INSERT INTO `mdfile` (`id`, `title`, `src`) VALUES
-(1, 'test title1', '202002272356707_test title1.md');
+(1, 'test title1', '202002272356707_test title1.md'),
+(2, '异步回调测试', '202003045807484_异步回调测试.md');
 
 -- --------------------------------------------------------
 
@@ -95,13 +97,13 @@ DROP TABLE IF EXISTS `post`;
 CREATE TABLE IF NOT EXISTS `post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(128) CHARACTER SET utf8 NOT NULL,
-  `mdSrc` varchar(128) DEFAULT NULL,
-  `htmlSrc` varchar(128) DEFAULT NULL,
+  `mdSrc` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
+  `htmlSrc` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
   `contents` text CHARACTER SET utf8 NOT NULL,
   `date` int(11) NOT NULL,
   `isDisplay` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `post`
@@ -118,7 +120,8 @@ INSERT INTO `post` (`id`, `title`, `mdSrc`, `htmlSrc`, `contents`, `date`, `isDi
 (9, 'test3', '', '', '<h1><a id=\"aaaa_0\"></a>aaaa</h1>\n', 1576658914, 0),
 (10, 'hello', '', '', '<h1><a id=\"hello_world_0\"></a>hello world</h1>\n', 1576658998, 0),
 (11, 'javascript', NULL, NULL, '<p>//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}//判断数据库是否有这个标题的文章<br />\nlet databaseTitle = await ctx.db.query(<code>select title from post where title=?</code>, [title]);<br />\nif(title.length == 0){<br />\nawait ctx.db.query(<code>insert into post (title,mdSrc,contents,date) value(?,?,?,?)</code>,[title, mdName, html, date]);<br />\n}else{<br />\nawait ctx.db.query(<code>update post set mdSrc=?</code>, [mdName]);<br />\n}</p>\n', 1582278494, 0),
-(14, 'test title1', '202002272356707_test title1.md', '202002272356707_test title1.html', '<h1><a id=\"test_contents_0\"></a>test contents</h1>\n<p><img src=\"/api/images/202002270055604_size_285263_ss.jpg\" alt=\"test_img\" /></p>\n', 1582788340, 0);
+(14, 'test title1', '202002272356707_test title1.md', '202002272356707_test title1.html', '<h1><a id=\"test_contents_0\"></a>test contents</h1>\n<p><img src=\"/api/images/202002270055604_size_285263_ss.jpg\" alt=\"test_img\" /></p>\n', 1582788340, 0),
+(15, '异步回调测试', '202003045807484_异步回调测试.md', '202003045807484_异步回调测试.html', '<h2><a id=\"_0\"></a>异步回调</h2>\n<p>解决写入md文件和html文件可能失败但是无法返回给前台的问题。<br />\n参考博客：<br />\nhttps://blog.csdn.net/strangedbly/article/details/61925167</p>\n', 1583301490, 1);
 
 -- --------------------------------------------------------
 
@@ -129,9 +132,9 @@ INSERT INTO `post` (`id`, `title`, `mdSrc`, `htmlSrc`, `contents`, `date`, `isDi
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(32) NOT NULL,
-  `password` varchar(32) NOT NULL,
-  `token` varchar(64) NOT NULL,
+  `username` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `password` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `token` varchar(64) CHARACTER SET utf8 NOT NULL,
   `token_expires` int(32) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
@@ -141,8 +144,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `token`, `token_expires`) VALUES
-(1, 'mnyt', '123456', 'aa3a54fa-3183-4a9e-b000-fd161d0fc8da', 1583998807),
-(2, 'zhangsan', '4321', 'aa3a54fa-3183-4a9e-b000-fd161d0fc8da', 1583998807);
+(1, 'mnyt', '123456', 'c0b9a8f2-869f-44f5-ad09-7e2d82fe5bda', 1584501932),
+(2, 'zhangsan', '4321', 'c0b9a8f2-869f-44f5-ad09-7e2d82fe5bda', 1584501932);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
