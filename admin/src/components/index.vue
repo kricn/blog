@@ -53,6 +53,7 @@ export default {
       }
       return `/modify/${params}`
     },
+    //添加key值，随机，可以在复用路由时（比如带参数）确保此时路由是唯一的，不然不会跳转。
     key() {
         return this.$route.name !== undefined? this.$route.name + +new Date(): this.$route + +new Date()
     }

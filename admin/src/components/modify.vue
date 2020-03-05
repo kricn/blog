@@ -11,7 +11,7 @@
       >
     </el-input>
     <el-button
-     @click="publish"
+     @click="modify"
      plain
      type="primary"
      >
@@ -43,19 +43,62 @@ import axios from 'axios'
 
 export default {
   components: {mavonEditor},
+  created(){
+    this.getData();
+  },
+  beforeRouteLeave(to, from, next){
+    if(this.id){
+      if(this.doc != this.md){
+        let leave = confirm("文章相关作出了改变，离开页面所更改内容将不出被保存，是否退出？")
+        if(leave){
+          return next();
+        }
+        return next(false)
+      }
+    }
+    next();
+  },
   data(){
     return {
       doc: '',
       //文章标题
-      title: ''
+      title: '',
+      //修改文章的id
+      id: this.$route.params.id || '',
+      //文章原始md文件
+      md: '',
+      //文章原始标题
+      oldTitle: ''
     }
   },
   methods: {
+    //获取修改文章的信息
+    getData(){
+      if(this.id){
+        this.axios({
+          type: "GET",
+          url: `/api/admin/modify/${this.id}`,
+          dataType: "json"
+        }).then(data=>{
+          let res = data.data;
+          if(res.err){
+            alert(res.msg);
+            this.$router.push("/home");
+            return ;
+          }
+          this.md = res.md;
+          this.doc = res.md;
+          this.title = res.title;
+          this.oldTitle = res.title;
+          console.log(res);
+        })
+      }
+    },
     save(){
       console.log("s")
     },
-    async publish(){
-
+    async modify(){
+      
     },
     async $imgAdd(pos, $file){
 
