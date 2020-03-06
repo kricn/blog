@@ -140,7 +140,7 @@ export default {
     getAll(){
       this.axios({
         method: "GET",
-        url: '/api/admin/getAll',
+        url: '/api/blog/getAll',
         dataType: "json"
       })
       .then(data=>{
@@ -157,7 +157,7 @@ export default {
     getArticle(){
       this.axios({
         method: 'GET',
-        url: "/api/admin/get",
+        url: "/api/blog/get",
         dataType: 'json',
         params: {
           page: this.page,

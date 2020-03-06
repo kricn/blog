@@ -111,7 +111,7 @@ export default {
     getArticle(){
       this.axios({
         method: 'get',
-        url: `/api/admin/getAll`,
+        url: `/api/blog/getAll`,
         dataType: 'json'
       }).then(data=>{
         let article = data.data;

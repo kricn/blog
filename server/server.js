@@ -40,6 +40,7 @@ server.use(async (ctx, next) => {
 let router = new Router();
 
 router.use('/admin', require("./routers/admin"));
+router.use('/blog', require("./routers/blog"));
 
 static(router);
 

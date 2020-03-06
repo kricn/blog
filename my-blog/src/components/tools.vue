@@ -52,7 +52,7 @@ export default {
     async getArticle(){
       this.axios({
         method: "GET",
-        url: "/api/admin/getAll",
+        url: "/api/blog/getAll",
       })
       .then(data=>{
         let res = data.data;

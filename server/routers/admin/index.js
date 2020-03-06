@@ -56,12 +56,6 @@ router.get('/home', async ctx => {
 
 });
 
-//全部展示文章的数据
-router.get("/getAll", async ctx => {
-	let datas = await ctx.db.query(`select * from post where isDisplay=1`);
-	ctx.body = datas;
-});
-
 //删除
 router.get('/delete/:id', async ctx => {
 
@@ -175,18 +169,6 @@ router.post("/imgdel", async ctx=>{
 		ctx.body = {err: 0, msg: "ok"}
 });
 ///////////////////////////////////////////////////////////////////////////
-
-//博客展示文章取数据
-router.get('/get', async ctx => {
-	let query = ctx.request.query;
-	//页数
-	let page = Number(query.page);
-	//数量
-	let count = Number(query.count);
-	let datas = await ctx.db.query(`select * from post where isDisplay=1 limit ?, ?`, [page*count-count, page*count]);
-
-	ctx.body = datas;
-});
 
 //修改文章接口
 //获取原来文章信息
