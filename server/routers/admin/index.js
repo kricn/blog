@@ -195,6 +195,7 @@ router.get("/modify/:id", async (ctx, next)=>{
 	let {id} = ctx.params;
 	//md文件数据
 	let data = '';
+	//空id传入
 	if(!id){
 		ctx.body = {err: 1, msg: "未选择文章"};
 		return ;
@@ -230,6 +231,47 @@ router.get("/modify/:id", async (ctx, next)=>{
 		reader.on("error", err=>{
 			console.log(err)
 		});
+	});
+});
+
+//修改上传
+router.post("/modify/:id", async (ctx, next)=>{
+	let data = ctx.request.fields;
+	//文章id
+	let id = ctx.params.id;
+	//修改后的标题
+	let title = data.title;
+	//修改后的md文件
+	let mdFile = data.markdown;
+	//修改后的html文件
+	let htmlFile = data.html;
+	//获取该id行的数据
+	let datas = await ctx.db.query(`select * from post where id=?`, [id]);
+	//获取md文件地址
+	let mdSrc = path.join(__dirname, "../../static/md/") + datas[0].mdSrc;
+	//获取html文件地址
+	let htmlSrc = path.join(__dirname, "../../static/html/") + datas[0].htmlSrc;
+	//修改该id那一行的md文件和html文件
+	//异步回调
+	return new Promise((resolve, reject)=>{
+		//修改ms文件
+		fs.writeFile(mdSrc, mdFile, err=>{
+			if(err){
+				ctx.body = {err: 1, msg: "修改md文件失败！"};
+				reslove(next());
+			}
+		});
+		//修改html文件
+		fs.writeFile(htmlSrc, htmlFile, err=>{
+			if(err){
+				ctx.body = {err: 1, msg: "修改html文件失败！"};
+				reslove(next());
+			}
+		});
+		//因为post表里也有保存html文件，所以也一并更新
+		ctx.db.query(`update post set contents=? where id=?`, [htmlFile, id]).then();
+		ctx.body = {err: 0, msg: "文章修改成功"};
+		resolve(next());
 	});
 });
 

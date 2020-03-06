@@ -90,7 +90,6 @@ export default {
           this.doc = res.md;
           this.title = res.title;
           this.oldTitle = res.title;
-          console.log(res);
         })
       }
     },
@@ -98,16 +97,57 @@ export default {
       console.log("s")
     },
     async modify(){
-      
+      if(this.md != this.doc){
+        let title = this.title;
+        let markdown = this.$refs.editor.d_value;
+        let html = this.$refs.editor.d_render;
+        let url = `/api/admin/modify/${this.id}`
+        axios({
+          method: "POST",
+          url: url,
+          data: {
+            title,
+            markdown,
+            html
+          }
+        })
+        .then(data=>{
+          let res = data.data;
+          if(res.err){
+            alert(res.msg);
+            return ;
+          }
+          alert(res.msg);
+          this.$router.push("/modify");
+        });
+      }else{
+        alert("文章相关内容未改变，不需要提交");
+      }
     },
     async $imgAdd(pos, $file){
-
+      var formdata = new FormData();
+      formdata.append('image', $file);
+      axios({
+        method: "POST",
+        url: "/api/admin/upload",
+        data: formdata
+      })
+      .then(data=>{
+        let src = data.data
+        this.$refs.editor.$img2Url(pos, `${SERVER}images/` + src)
+      });
     },
     async $imgDel(pos){
-
+      let name = pos[0];
+      axios({
+        method: "POST",
+        url: "/api/admin/imgdel",
+        data: {name}
+      })
+      .then()
     },
     change(){
-      console.log("a");
+
     }
   }
 }
