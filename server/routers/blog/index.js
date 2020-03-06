@@ -24,4 +24,14 @@ router.get('/get', async ctx => {
 	ctx.body = datas;
 });
 
+//搜索接口
+router.post("/search", async ctx=>{
+  let data = ctx.request.fields;
+  //关键字
+  let key = data.key;
+  //检索数据库
+  let datas = await ctx.db.query(`select * from post where isDisplay=1 and upper(title) like ?`, [`%${key}%`]);
+  ctx.body = datas;
+});
+
 module.exports=router.routes();
