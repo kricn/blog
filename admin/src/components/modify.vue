@@ -48,7 +48,7 @@ export default {
   },
   beforeRouteLeave(to, from, next){
     if(this.id){
-      if(this.doc != this.md){
+      if(this.doc != this.md && this.isModify){
         let leave = confirm("文章相关作出了改变，离开页面所更改内容将不出被保存，是否退出？")
         if(leave){
           return next();
@@ -68,7 +68,9 @@ export default {
       //文章原始md文件
       md: '',
       //文章原始标题
-      oldTitle: ''
+      oldTitle: '',
+      //是否已经修改标志，路由守卫上用
+      isModify: true,
     }
   },
   methods: {
@@ -118,6 +120,8 @@ export default {
             return ;
           }
           alert(res.msg);
+          //清除路由守卫离开标志
+          this.isModify = false
           this.$router.push("/modify");
         });
       }else{
