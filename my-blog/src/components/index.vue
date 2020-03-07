@@ -28,9 +28,9 @@
 </template>
 
 <script>
-import Info from './info.vue'
-import Content from './content.vue'
-import Tools from './tools.vue'
+const Info = () => import('./info.vue');
+const Content = () => import('./content.vue');
+const Tools = () => import('./tools.vue');
 export default {
   data(){
     return {
@@ -69,7 +69,9 @@ export default {
         return this.$route.name !== undefined? this.$route.name + +new Date(): this.$route + +new Date()
     }
   },
-  components: {Info, Content, Tools}
+  components: {
+    Info, Content, Tools
+  }
 }
 </script>
 

@@ -3,9 +3,9 @@
     <div class="overlay"></div>
     <div class="intrude-less">
       <header id="header" class="inner">
-        <a href="javascript:;" class="profilepic">
+        <router-link :to="{path: '/index'}" class="profilepic">
           <img src="../assets/profile.jpg" alt="profile">
-        </a>
+        </router-link>
         <hgroup>
           <h1>Kricn</h1>
         </hgroup>

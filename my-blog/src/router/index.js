@@ -1,8 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Index from '@/components/index.vue'
-// import Content from '@/components/content.vue'
-// import Article from '@/components/article.vue'
 
 Vue.use(Router)
 
