@@ -40,7 +40,7 @@
       </div>
       <div class="mobile-mask" :class="[this.isShow?'mobile-mask-show':'mobile-mask-hide']"></div>
     </nav>
-    <div id="wrapper" class="body-wrap">
+    <div v-if="lazyLoad" id="wrapper" class="body-wrap">
       <div class="menu-1">
         <div class="content-l1" id="js-content">
           <article class="article" v-for="article in articles">
@@ -57,7 +57,6 @@
                 <div class="clearfix"></div>
               </header>
               <div class="article-entry" v-html="article.contents" :style="{maxHeight: isArticle_show?'':'300px'}">
-
               </div>
               <div class="article-info">
                 <div class="tagcloud">
@@ -100,12 +99,18 @@
         </div>
       </div>
     </div>
+    <div v-else="lazyLoad" class="loading">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
     <footer class="footer">
       <div class="footer_left">
         <p>@2019 Kricn</p>
       </div>
       <div class="footer_right">
-
       </div>
     </footer>
   </div>
@@ -207,11 +212,18 @@ export default {
       this.page = page;
       this.getArticle();
     }
+  },
+  computed: {
+    lazyLoad(){
+      if(this.articles.length > 0){
+        return true;
+      }
+      return false
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
 @import '../assets/less/content.less';
-
 </style>

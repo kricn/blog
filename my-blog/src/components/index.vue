@@ -3,6 +3,7 @@
     <div class="col-left" :class="[isShow?'left-style':'']">
       <Info @showList="showList" @showMe="showMe"></Info>
     </div>
+    <!-- 文章内容 -->
     <div class="col-mid" :class="[isShow?'mid-show':'']">
       <transition name="fade" mode="out-in">
         <router-view
@@ -12,6 +13,7 @@
         />
       </transition>
     </div>
+    <!-- 展示信息栏 -->
     <div class="col-tools" v-show="isShow" @click.stop="" :class="[isShow?'tools-show':'tools-hide']" ref="colTools">
       <Tools
       :isDisplay="isDisplay"
