@@ -42,7 +42,8 @@
 </template>
 
 <script>
-import Header from '@/components/header.vue';
+//import Header from '@/components/header.vue';
+const Header = () => import('@/components/header.vue')
 
 export default {
   computed: {

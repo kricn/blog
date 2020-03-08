@@ -30,9 +30,6 @@ export default {
       SERVER
     }
   },
-  created(){
-    console.log(this.SERVER);
-  },
   methods: {
     async submit_form(){
       let form = this.$refs["login_form"];

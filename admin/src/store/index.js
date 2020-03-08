@@ -9,11 +9,6 @@ export default new Vuex.Store({
   mutations: {
   },
   actions: {
-    publish(context){
-      axios({
-        
-      })
-    }
   },
   modules: {
   }

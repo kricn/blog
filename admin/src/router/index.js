@@ -17,34 +17,34 @@ const router = new Router({
     {
       path: '/',
       name: 'index',
-      component: Index,
+      component: resolve => require(['@/components/index.vue'], resolve),
       children: [
         {
           path: '/home',
           name: 'home',
-          component: Home
+          component: resolve => require(['@/components/home.vue'], resolve)
         },
         {
           path: '/modify',
           name: 'modify',
-          component: Modify
+          component: resolve => require(['@/components/modify.vue'], resolve)
         },
         {
           path: '/modify/:id',
           name: 'modifyId',
-          component: Modify
+          component: resolve => require(['@/components/modify.vue'], resolve)
         },
         {
           path: '/publish',
           name: 'publish',
-          component: Publish,
+          component: resolve => require(['@/components/publish.vue'], resolve)
         }
       ]
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: resolve => require(['@/components/login.vue'], resolve)
     }
   ]
 });
