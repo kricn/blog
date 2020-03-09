@@ -84,7 +84,7 @@ export default {
         }).then(data=>{
           let res = data.data;
           if(res.err){
-            alert(res.msg);
+            this.$message.error(res.msg);
             this.$router.push("/home");
             return ;
           }
@@ -98,7 +98,7 @@ export default {
     save(){
       console.log("s")
     },
-    async modify(){
+    modify(){
       if(this.md != this.doc){
         let title = this.title;
         let markdown = this.$refs.editor.d_value;
@@ -116,16 +116,19 @@ export default {
         .then(data=>{
           let res = data.data;
           if(res.err){
-            alert(res.msg);
+            this.$message.error(res.msg);
             return ;
           }
-          alert(res.msg);
+          this.$message({
+            message: res.msg,
+            type: "success"
+          });
           //清除路由守卫离开标志
           this.isModify = false
           this.$router.push("/modify");
         });
       }else{
-        alert("文章相关内容未改变，不需要提交");
+        this.$message("文章相关内容未改变，不需要提交");
       }
     },
     async $imgAdd(pos, $file){
