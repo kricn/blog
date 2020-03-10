@@ -170,4 +170,11 @@ export default {
 
 <style lang="less" scoped>
 @import "../assets/less/modify.less";
+.info{
+  margin: 20px 0;
+  .el-input{
+    width: 50%;
+    margin-right: 10px;
+  }
+}
 </style>
