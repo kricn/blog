@@ -35,15 +35,16 @@ import "mavon-editor/dist/css/index.css";
 import axios from 'axios'
 
 export default {
-  name: "Create",
   components: {mavonEditor},
   data(){
     return {
+      //md内容
       doc: '',
       //文章标题
       title: ''
     }
   },
+  //路由守卫
   beforeRouteLeave(to, from, next){
     let title = this.title;
     let markdown = this.$refs.editor.d_value;
@@ -58,10 +59,11 @@ export default {
     return next(false);
   },
   methods: {
+    //保存
     save(){
-      console.log("s")
     },
-    async publish(){
+    //发表
+    publish(){
       let title = this.title;
       let date = Math.floor(Date.now()/1000);
       let markdown = this.$refs.editor.d_value;
@@ -80,16 +82,20 @@ export default {
       .then(data=>{
         let res = data.data;
         if(res.err){
-          alert(res.msg);
+          this.$message(res.msg)
           return ;
         }
-        alert(res.msg);
+        this.$message({
+          message: res.msg,
+          type: "success"
+        })
       });
     },
-    async $imgAdd(pos, $file){
+    //添加图片
+    $imgAdd(pos, $file){
       var formdata = new FormData();
       formdata.append('image', $file);
-      axios({
+      this.axios({
         method: "POST",
         url: "/api/admin/upload",
         data: formdata
@@ -99,7 +105,8 @@ export default {
         this.$refs.editor.$img2Url(pos, `${SERVER}images/` + src)
       });
     },
-    async $imgDel(pos){
+    //图片删除
+    $imgDel(pos){
       let name = pos[0];
       axios({
         method: "POST",
@@ -109,7 +116,6 @@ export default {
       .then()
     },
     change(){
-      console.log("a");
     }
   }
 }

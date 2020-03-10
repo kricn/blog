@@ -27,10 +27,16 @@
     :ishljs="true"
     ></mavon-editor>
   </div>
+  <!--——————————————————————————————————————————————————————————————————————————————————-->
   <div
    v-else
    class="modify">
-     请去首页选择需要修改的文章
+     <ul class="animation_ul">
+       <li v-for="(count,index) in animation_counts" :key="index"></li>
+     </ul>
+     <div class="text">
+       去首页选择一篇文章修改吧！
+     </div>
   </div>
 </template>
 
@@ -71,6 +77,8 @@ export default {
       oldTitle: '',
       //是否已经修改标志，路由守卫上用
       isModify: true,
+      //动画li数量的长度
+      animation_counts: 10,
     }
   },
   methods: {
@@ -161,11 +169,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.info{
-  margin: 20px 0;
-  .el-input{
-    width: 50%;
-    margin-right: 10px;
-  }
-}
+@import "../assets/less/modify.less";
 </style>
