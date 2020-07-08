@@ -3,7 +3,7 @@ const path = require('path');
 module.exports={
 	DB_HOST: 'localhost',
 	DB_USER: 'root',
-	DB_PASS: 'bamnyt',
+	DB_PASS: '',
 	DB_NAME: 'blog',
 
 	ADMIN_SUBFIX: '_,./!@#',
