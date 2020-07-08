@@ -1,6 +1,15 @@
 const path = require("path");
 const {SERVER} = require('./src/config.js');
 module.exports = {
+  pwa: {
+    iconPaths: {
+      favicon32: 'favicon.ico',
+      favicon16: 'favicon.ico',
+      appleTouchIcon: 'favicon.ico',
+      maskIcon: 'favicon.ico',
+      msTileImage: 'favicon.ico'
+    }
+  },
   //部署包时时的基本url
   publicPath: process.env.NODE_ENV === 'production'? '/': '/',
   //生产环境时的输出目录,生产环境的输出路径都相对于这个路径
