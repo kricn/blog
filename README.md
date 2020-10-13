@@ -1,6 +1,6 @@
 # 说明
 **仓库不再更新，站点也不再更新，可以去站点预览demo**\
-[线上demo](www.bamnyt.com)
+[线上demo](http://www.bamnyt.com)
 # myBlog
 基于vue和koa的个人博客, 用vue-cli3.x脚手架搭建
 
